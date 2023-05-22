@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Markelov97Vad/movies-explorer-api#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.18.2",
     "mongoose": "^7.2.0",
     "validator": "^13.9.0"

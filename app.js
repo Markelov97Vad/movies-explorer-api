@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const { PORT, DATABASE_URL } = require('./ustils/config');
+const { errorHandler } = require('./middlewares/errorHandler');
+const router = require('./routes');
 
 const app = express();
 /* eslint-disable no-alert, no-console */
@@ -14,6 +16,14 @@ mongoose.connect(DATABASE_URL, {
     console.error(err);
   });
 /* eslint-enable no-alert, no-console */
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// функционал роутинга
+app.use(router);
+// централизированная обработка ошибок
+app.use(errorHandler);
 
 /* eslint-disable no-alert, no-console */
 app.listen(PORT, () => {
