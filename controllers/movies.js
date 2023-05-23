@@ -42,7 +42,6 @@ const createMovie = (req, res, next) => {
     nameRU,
     nameEN,
   }).then((newMovie) => {
-    console.log('сюда');
     Movie.findById(newMovie._id)
       .populate('owner')
       .then((createdMovie) => res.status(CREATED_CODE).send(createdMovie))

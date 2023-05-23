@@ -4,9 +4,10 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 
 const { PORT, DATABASE_URL } = require('./ustils/config');
-
-const router = require('./routes');
 const { centralizedErrorHandler } = require('./middlewares/centralizedErrorHandler');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+const router = require('./routes');
+const productionJwtCheck = require('./ustils/productionJwtCheck');
 
 const app = express();
 
@@ -24,11 +25,18 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 
+app.use(requestLogger);
 // функционал роутинга
 app.use(router);
+
+app.use(errorLogger);
 // централизированная обработка ошибок
 app.use(centralizedErrorHandler);
 
 app.listen(PORT, () => {
+  if (process.env.NODE_ENV !== 'production') {
+    console.log('\x1b[33m%s\x1b[0m', 'Код запущен в режиме разработки');
+  }
+  productionJwtCheck();
   console.log(`Сервер запущен, порт ${PORT}`);
 });
