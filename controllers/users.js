@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 const { handleErrors } = require('../ustils/handleError');
@@ -11,11 +12,6 @@ const { OK_CODE, CREATED_CODE } = require('../ustils/codeStatus');
 // # обновляет информацию о пользователе (email и имя)
 // PATCH /users/me
 
-// const login = (req, res, next) => {
-//   const { email, password } = req.body;
-//   User.
-// }
-
 const createUser = (req, res, next) => {
   const { email, password, name } = req.body;
 
@@ -27,6 +23,20 @@ const createUser = (req, res, next) => {
       res.status(CREATED_CODE).send(newUser);
     })
     .catch((err) => handleErrors(err, next));
+};
+
+const login = (req, res, next) => {
+  const { email, password } = req.body;
+  User.findUserByCredentails(email, password)
+    .then((user) => {
+      const token = jwt.sign(
+        { _id: user._id },
+        'secret',
+        { expiresIn: '7d' },
+      );
+      return res.send({ token });
+    })
+    .catch(next);
 };
 
 const getCurrentUser = (req, res, next) => {
@@ -60,6 +70,7 @@ const setUserInfo = (req, res, next) => {
 
 module.exports = {
   createUser,
+  login,
   getCurrentUser,
   setUserInfo,
 };
