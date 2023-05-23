@@ -2,15 +2,13 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
-const { handleErrors } = require('../ustils/handleError');
+
 const NotFoundError = require('../errors/NotFoundError');
 const { OK_CODE, CREATED_CODE } = require('../ustils/codeStatus');
+const { checkJWT } = require('../ustils/config');
+const { handleError } = require('../ustils/handleError');
 
-// # возвращает информацию о пользователе (email и имя)
-// GET /users/me
-
-// # обновляет информацию о пользователе (email и имя)
-// PATCH /users/me
+const { NODE_ENV } = process.env;
 
 const createUser = (req, res, next) => {
   const { email, password, name } = req.body;
@@ -22,7 +20,7 @@ const createUser = (req, res, next) => {
       delete newUser.password;
       res.status(CREATED_CODE).send(newUser);
     })
-    .catch((err) => handleErrors(err, next));
+    .catch((err) => handleError(err, next));
 };
 
 const login = (req, res, next) => {
@@ -31,12 +29,29 @@ const login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        'secret',
+        checkJWT,
         { expiresIn: '7d' },
       );
-      return res.send({ token });
+      const newUser = user.toObject();
+      delete newUser.password;
+      return res.cookie(
+        'jwt',
+        token,
+        {
+          httpOnly: true,
+          secure: NODE_ENV === 'production',
+          sameSite: 'none',
+        },
+      )
+        .send(newUser);
     })
-    .catch(next);
+    .catch((err) => handleError(err, next));
+};
+
+const logout = (req, res) => {
+  res
+    .clearCookie('jwt')
+    .send({ message: 'Выход выполнен успешно!' });
 };
 
 const getCurrentUser = (req, res, next) => {
@@ -49,7 +64,7 @@ const getCurrentUser = (req, res, next) => {
       }
       return res.status(200).send(user);
     })
-    .catch((err) => handleErrors(err, next));
+    .catch((err) => handleError(err, next));
 };
 
 const setUserInfo = (req, res, next) => {
@@ -65,12 +80,13 @@ const setUserInfo = (req, res, next) => {
       throw new NotFoundError('Пользователь с указанным id не найден.');
     }
     return res.status(OK_CODE).send(user);
-  }).catch((err) => handleErrors(err, next));
+  }).catch((err) => handleError(err, next));
 };
 
 module.exports = {
   createUser,
   login,
+  logout,
   getCurrentUser,
   setUserInfo,
 };

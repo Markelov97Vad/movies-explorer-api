@@ -1,9 +1,12 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 
 const { PORT, DATABASE_URL } = require('./ustils/config');
-const { errorHandler } = require('./middlewares/errorHandler');
+
 const router = require('./routes');
+const { centralizedErrorHandler } = require('./middlewares/centralizedErrorHandler');
 
 const app = express();
 
@@ -19,10 +22,12 @@ mongoose.connect(DATABASE_URL, {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(cookieParser());
+
 // функционал роутинга
 app.use(router);
 // централизированная обработка ошибок
-app.use(errorHandler);
+app.use(centralizedErrorHandler);
 
 app.listen(PORT, () => {
   console.log(`Сервер запущен, порт ${PORT}`);

@@ -48,8 +48,4 @@ const userSchema = new mongoose.Schema({
   versionKey: false,
 });
 
-// userSchema.static.findUserByCredentails = function (email, password) {
-//   return this.findOne({ email }).select('+password')
-// }
-
 module.exports = mongoose.model('user', userSchema);

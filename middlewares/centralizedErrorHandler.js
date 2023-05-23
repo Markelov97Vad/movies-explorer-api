@@ -1,6 +1,6 @@
 const { SERVER_ERROR_CODE } = require('../ustils/codeStatus');
 
-module.exports.errorHandler = (err, req, res, next) => {
+module.exports.centralizedErrorHandler = (err, req, res, next) => {
   const { statusCode = SERVER_ERROR_CODE, message } = err;
   res
     .status(err.statusCode)

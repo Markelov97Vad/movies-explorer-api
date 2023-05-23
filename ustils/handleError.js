@@ -2,7 +2,7 @@ const { default: mongoose } = require('mongoose');
 const BadRequestError = require('../errors/BadRequestError');
 const ConflictError = require('../errors/ConflictError');
 
-module.exports.handleErrors = (err, next) => {
+module.exports.handleError = (err, next) => {
   if (err instanceof mongoose.Error.CastError) {
     return next(new BadRequestError('Переданы некорректные данные'));
   }
