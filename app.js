@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
+const { errors } = require('celebrate');
 
 const { PORT, DATABASE_URL } = require('./ustils/config');
 const { centralizedErrorHandler } = require('./middlewares/centralizedErrorHandler');
@@ -30,6 +31,8 @@ app.use(requestLogger);
 app.use(router);
 
 app.use(errorLogger);
+
+app.use(errors());
 // централизированная обработка ошибок
 app.use(centralizedErrorHandler);
 

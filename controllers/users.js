@@ -34,18 +34,19 @@ const login = (req, res, next) => {
       );
       const newUser = user.toObject();
       delete newUser.password;
-      return res.cookie(
-        'jwt',
-        token,
-        {
-          httpOnly: true,
-          secure: NODE_ENV === 'production',
-          sameSite: 'none',
-        },
-      )
+      return res
+        .cookie(
+          'jwt',
+          token,
+          {
+            httpOnly: true,
+            secure: NODE_ENV === 'production',
+            sameSite: 'none',
+          },
+        )
         .send(newUser);
     })
-    .catch((err) => handleError(err, next));
+    .catch(next);
 };
 
 const logout = (req, res) => {
@@ -69,11 +70,11 @@ const getCurrentUser = (req, res, next) => {
 
 const setUserInfo = (req, res, next) => {
   const { _id } = req.user;
-  const { name, about } = req.body;
+  const { name, email } = req.body;
 
   return User.findByIdAndUpdate(
     _id,
-    { name, about },
+    { name, email },
     { new: true, runValidators: true },
   ).then((user) => {
     if (!user) {
