@@ -11,6 +11,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { cors } = require('./middlewares/cors');
 const router = require('./routes');
 const productionJwtCheck = require('./ustils/productionJwtCheck');
+const { rateLimiter } = require('./middlewares/rateLimiter');
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(requestLogger);
+app.use(rateLimiter);
 // функционал роутинга
 app.use(router);
 
