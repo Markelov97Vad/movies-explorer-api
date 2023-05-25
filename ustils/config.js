@@ -17,6 +17,7 @@ const SERVER_ERROR_CODE = 500;
 // сообщение ответа
 const FORBIDDEN_MESSAGE = 'Невозможно удалить чужие данные';
 const NOT_FOUND_MESSAGE = 'Данные с указанным id не найдены';
+const NOT_FOUND_PATH_MESSAGE = 'Ресурс не найден. Проверьте URL и метод запроса';
 const DELETE_MESSAGE = 'Данные удалены';
 const BAD_REQUEST_MESSAGE = 'Переданы некорректные данные';
 const CONFLICT_MESSAGE = 'При регистрации указан email, который уже существует на сервере';
@@ -51,6 +52,7 @@ module.exports = {
   SERVER_ERROR_CODE,
   FORBIDDEN_MESSAGE,
   NOT_FOUND_MESSAGE,
+  NOT_FOUND_PATH_MESSAGE,
   DELETE_MESSAGE,
   BAD_REQUEST_MESSAGE,
   CONFLICT_MESSAGE,

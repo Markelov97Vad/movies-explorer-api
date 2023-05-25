@@ -2,11 +2,15 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
-
 const NotFoundError = require('../errors/NotFoundError');
-const { OK_CODE, CREATED_CODE } = require('../ustils/codeStatus');
-const { checkJWT, DELETE_MESSAGE, NOT_FOUND_MESSAGE } = require('../ustils/config');
 const { handleError } = require('../ustils/handleError');
+const {
+  checkJWT,
+  DELETE_MESSAGE,
+  NOT_FOUND_MESSAGE,
+  CREATED_CODE,
+  OK_CODE,
+} = require('../ustils/config');
 
 const { NODE_ENV } = process.env;
 
@@ -63,7 +67,7 @@ const getCurrentUser = (req, res, next) => {
       if (!user) {
         throw new NotFoundError(NOT_FOUND_MESSAGE);
       }
-      return res.status(200).send(user);
+      return res.status(OK_CODE).send(user);
     })
     .catch((err) => handleError(err, next));
 };

@@ -1,5 +1,5 @@
-const UnauthorizedError = require('../errors/UnauthorizedError');
 const jwt = require('jsonwebtoken');
+const UnauthorizedError = require('../errors/UnauthorizedError');
 const { checkJWT, UNAUTHORIZED_AUTH_MESSAGE } = require('../ustils/config');
 
 module.exports = (req, res, next) => {
