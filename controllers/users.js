@@ -5,7 +5,7 @@ const User = require('../models/user');
 
 const NotFoundError = require('../errors/NotFoundError');
 const { OK_CODE, CREATED_CODE } = require('../ustils/codeStatus');
-const { checkJWT } = require('../ustils/config');
+const { checkJWT, DELETE_MESSAGE, NOT_FOUND_MESSAGE } = require('../ustils/config');
 const { handleError } = require('../ustils/handleError');
 
 const { NODE_ENV } = process.env;
@@ -52,7 +52,7 @@ const login = (req, res, next) => {
 const logout = (req, res) => {
   res
     .clearCookie('jwt')
-    .send({ message: 'Выход выполнен успешно!' });
+    .send({ message: DELETE_MESSAGE });
 };
 
 const getCurrentUser = (req, res, next) => {
@@ -61,7 +61,7 @@ const getCurrentUser = (req, res, next) => {
   User.findById(_id)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователь по указанному Id не найден.');
+        throw new NotFoundError(NOT_FOUND_MESSAGE);
       }
       return res.status(200).send(user);
     })
@@ -78,7 +78,7 @@ const setUserInfo = (req, res, next) => {
     { new: true, runValidators: true },
   ).then((user) => {
     if (!user) {
-      throw new NotFoundError('Пользователь с указанным id не найден.');
+      throw new NotFoundError(NOT_FOUND_MESSAGE);
     }
     return res.status(OK_CODE).send(user);
   }).catch((err) => handleError(err, next));

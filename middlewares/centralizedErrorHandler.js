@@ -1,4 +1,4 @@
-const { SERVER_ERROR_CODE } = require('../ustils/codeStatus');
+const { SERVER_ERROR_CODE, SERVER_ERROR_MESSAGE } = require('../ustils/config');
 
 module.exports.centralizedErrorHandler = (err, req, res, next) => {
   const { statusCode = SERVER_ERROR_CODE, message } = err;
@@ -6,7 +6,7 @@ module.exports.centralizedErrorHandler = (err, req, res, next) => {
     .status(err.statusCode)
     .send({
       message: statusCode === SERVER_ERROR_CODE
-        ? 'На сервере произошла ошибка'
+        ? SERVER_ERROR_MESSAGE
         : message,
     });
   next();

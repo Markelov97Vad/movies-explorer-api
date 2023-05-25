@@ -1,8 +1,14 @@
 const NotFoundError = require('../errors/NotFoundError');
 const ForbiddenError = require('../errors/ForbiddenError');
 const Movie = require('../models/movie');
-const { OK_CODE, CREATED_CODE } = require('../ustils/codeStatus');
 const { handleError } = require('../ustils/handleError');
+const {
+  FORBIDDEN_MESSAGE,
+  NOT_FOUND_MESSAGE,
+  DELETE_MESSAGE,
+  OK_CODE,
+  CREATED_CODE,
+} = require('../ustils/config');
 
 const getMoviesSavedByUser = (req, res, next) => {
   Movie.find({ owner: req.user._id })
@@ -53,14 +59,14 @@ const deleteMovie = (req, res, next) => {
   Movie.findById(req.params.id)
     .then((movie) => {
       if (!movie) {
-        throw new NotFoundError('Фильм с указанным id не найден.');
+        throw new NotFoundError(NOT_FOUND_MESSAGE);
       }
       if (movie.owner.valueOf() !== req.user._id) {
-        throw new ForbiddenError('Попытка удалить чужой фильм');
+        throw new ForbiddenError(FORBIDDEN_MESSAGE);
       }
       return movie.deleteOne();
     })
-    .then(() => res.status(OK_CODE).send({ message: 'Фильм удален' }))
+    .then(() => res.status(OK_CODE).send({ message: DELETE_MESSAGE }))
     .catch((err) => handleError(err, next));
 };
 

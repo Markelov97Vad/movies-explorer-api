@@ -2,15 +2,20 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
 const { errors } = require('celebrate');
 
 const { PORT, DATABASE_URL } = require('./ustils/config');
 const { centralizedErrorHandler } = require('./middlewares/centralizedErrorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { cors } = require('./middlewares/cors');
 const router = require('./routes');
 const productionJwtCheck = require('./ustils/productionJwtCheck');
 
 const app = express();
+
+app.use(helmet());
+app.use(cors);
 
 mongoose.connect(DATABASE_URL, {
   useNewUrlParser: true,

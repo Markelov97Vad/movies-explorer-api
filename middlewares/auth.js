@@ -1,11 +1,11 @@
 const UnauthorizedError = require('../errors/UnauthorizedError');
 const jwt = require('jsonwebtoken');
-const { checkJWT } = require('../ustils/config');
+const { checkJWT, UNAUTHORIZED_AUTH_MESSAGE } = require('../ustils/config');
 
 module.exports = (req, res, next) => {
   const token = req.cookies.jwt;
   if (!token) {
-    return next(new UnauthorizedError('OOO Необхадима авторизация'));
+    return next(new UnauthorizedError(UNAUTHORIZED_AUTH_MESSAGE));
   }
 
   let payload;
@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
   try {
     payload = jwt.verify(token, checkJWT);
   } catch (error) {
-    return next(UnauthorizedError('Необхадима авторизация'));
+    return next(UnauthorizedError(UNAUTHORIZED_AUTH_MESSAGE));
   }
 
   req.user = payload;
