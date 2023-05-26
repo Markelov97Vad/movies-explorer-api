@@ -10,10 +10,10 @@ const { NOT_FOUND_PATH_MESSAGE } = require('../ustils/config');
 
 router.post('/signup', registrationValidation, createUser);
 router.post('/signin', loginValidation, login);
-router.post('/signout', logout);
 
 router.use(auth);
 
+router.post('/signout', logout);
 router.use('/users', usersRouter);
 router.use('/movies', moviesRouter);
 router.use('*', (req, res, next) => {
