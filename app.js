@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
-// const cors = require('cors');
 
 const { PORT, DATABASE_URL } = require('./ustils/config');
 const { centralizedErrorHandler } = require('./middlewares/centralizedErrorHandler');
@@ -13,13 +12,11 @@ const { cors } = require('./middlewares/cors');
 const router = require('./routes');
 const productionJwtCheck = require('./ustils/productionJwtCheck');
 const { rateLimiter } = require('./middlewares/rateLimiter');
-const { corsOptions } = require('./ustils/corsOptions');
 
 const app = express();
 
 app.use(helmet());
 app.use(cors);
-// app.use(cors(corsOptions))
 
 mongoose.connect(DATABASE_URL, {
   useNewUrlParser: true,
