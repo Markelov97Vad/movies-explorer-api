@@ -38,16 +38,17 @@ const login = (req, res, next) => {
       );
       const newUser = user.toObject();
       delete newUser.password;
-      return res
-        .cookie(
-          'jwt',
-          token,
-          {
-            httpOnly: true,
-            secure: NODE_ENV === 'production',
-            sameSite: 'none',
-          },
-        )
+      console.log(token);
+      return res.cookie(
+        'jwt',
+        token,
+        {
+          httpOnly: true,
+          secure: NODE_ENV === 'production',
+          sameSite: 'none',
+          maxAge: 3600000 * 24 * 7,
+        },
+      )
         .send(newUser);
     })
     .catch(next);

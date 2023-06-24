@@ -26,7 +26,8 @@ const UNAUTHORIZED_LOGIN_MESSAGE = 'Неправильные почта или �
 const SERVER_ERROR_MESSAGE = 'На сервере произошла ошибка';
 
 const allowedCors = [
-  // 'http://localhost:3001',
+  'http://localhost:3001',
+  'http://localhost:3002',
   'http://100.96.53.82:3001',
   'http://100.96.53.82',
   'https://100.96.53.82',
