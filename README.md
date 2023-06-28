@@ -17,7 +17,7 @@ Api для дипломного проекта <a href="https://github.com/Marke
 
 Проект задеплоен на виртуальную машину, размещенную на <a href="https://cloud.yandex.ru/">Яндекс Облаке</a>.
 
-<b>Адрес репозитория:</b> https://github.com/elrouss/movies-explorer-api
+<b>Адрес репозитория:</b> https://github.com/Markelov97Vad/movies-explorer-api
 
 <b>Ссылки на проект:</b>
 <br>
