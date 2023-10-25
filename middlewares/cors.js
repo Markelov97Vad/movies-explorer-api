@@ -14,7 +14,6 @@ module.exports.cors = (req, res, next) => {
   // обработка предварительных запросов CORS
   if (method === 'OPTIONS') {
     res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
-    console.log(requestHeaders);
     res.header('Access-Control-Allow-Headers', requestHeaders);
     res.header('Access-Control-Allow-Credentials', true);
     return res.end();

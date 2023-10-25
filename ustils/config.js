@@ -1,4 +1,4 @@
-const { PORT = 3000, DATABASE_URL = 'mongodb://127.0.0.1:27017/bitfilmsdb' } = process.env;
+const { PORT = 3002, DATABASE_URL = 'mongodb://127.0.0.1:27017/bitfilmsdb' } = process.env;
 const regexUrl = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/;
 const { NODE_ENV, JWT_SECRET } = process.env;
 const JWT_SECRET_DEV = 'some-secret-key';
@@ -26,6 +26,7 @@ const UNAUTHORIZED_LOGIN_MESSAGE = 'Неправильные почта или �
 const SERVER_ERROR_MESSAGE = 'На сервере произошла ошибка';
 
 const allowedCors = [
+  'http://localhost:3000',
   'http://localhost:3001',
   'http://localhost:3002',
   'http://100.96.53.82:3001',

@@ -38,7 +38,6 @@ const login = (req, res, next) => {
       );
       const newUser = user.toObject();
       delete newUser.password;
-      console.log(token);
       return res.cookie(
         'jwt',
         token,
